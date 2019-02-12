@@ -32,10 +32,9 @@ aa = dict(
 )
 
 def prepareDataSet(files):
-    SAMPLE_INTERVAL = 20
-    MAX_FILE_COUNT = 5000000000
-
-    FEATURE_DIMENSION = 5
+    SAMPLE_INTERVAL = 200
+    MAX_FILE_COUNT = 10000000000
+    FEATURE_DIMENSION = 21
 
     X = np.empty((0,FEATURE_DIMENSION), int)
     y = np.empty((0,1), float)
@@ -57,16 +56,18 @@ def prepareDataSet(files):
                 seq += [aa[acid]]
                 y = np.append(y, asa)
         
-        y = (y-y.mean())/ y.std()
+        # y = (y-y.mean())/ y.std()
 
         seq += [0 for i in range(FEATURE_DIMENSION//2)]
 
-        for i in range(len(seq) - FEATURE_DIMENSION//2-2):
+        for i in range(len(seq) - FEATURE_DIMENSION+1):
             window = np.array([seq[i: i+FEATURE_DIMENSION]])
             # print(window.shape)
             X = np.append(X, window, axis = 0)
 
     print("x shape", X.shape, "y shape", y.shape )
+    print(X[len(X)-1])
+    print(X[0])
     return X , y
 
 
@@ -79,14 +80,16 @@ if __name__ == "__main__":
 
     Xtrain, ytrain = prepareDataSet(train_files)
 
-
-    clf = RandomForestRegressor(n_estimators=100, criterion='mae', n_jobs=4, max_depth=3)
-    clf.fit(Xtrain, ytrain)
-
-    del Xtrain, ytrain
-    gc.collect()
+    # clf = RandomForestRegressor(n_estimators=100, criterion='mae', n_jobs=4, max_depth=3)
+    # clf.fit(Xtrain, ytrain)
+    # del Xtrain, ytrain
+    # gc.collect()
 
     Xtest, ytest = prepareDataSet(test_files)
-    ytest_pred = clf.predict(Xtest)
+    # ytest_pred = clf.predict(Xtest)
+    # print(mae(ytest, ytest_pred))
 
-    print(mae(ytest, ytest_pred))
+    np.savez_compressed('Xtrain21.npz', X=Xtrain)
+    np.savez_compressed('Xtest21.npz', X=Xtest)
+    np.savez_compressed('ytrain21.npz', y=ytrain)
+    np.savez_compressed('ytest21.npz', y=ytest)
