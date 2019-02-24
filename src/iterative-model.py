@@ -4,13 +4,14 @@ from sklearn.ensemble import GradientBoostingRegressor as GBT
 from sklearn.metrics import mean_absolute_error as mae
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
-from catboost import CatBoostRegressor as CBR
+# from catboost import CatBoostRegressor as CBR
 import gc
 
 HIDDEN_STATE_SIZE = 10
 MAX_ITERATION = 1000
+WINDOW_SIZE = 21
 
-temp_X = np.load('Xtrain45.npz')['X']
+temp_X = np.load('Xtrain' + str(WINDOW_SIZE)+ '.npz')['X']
 y = np.load('ytrain_raw.npz')['y']
 
 # X = np.zeros((temp_X.shape[0], temp_X.shape[1]+HIDDEN_STATE_SIZE))
@@ -25,7 +26,7 @@ ytrain = np.sqrt(y)
 # yval = y[len(y)//2:]
 
 
-temp_Xtest = np.load('Xtest45.npz')['X']
+temp_Xtest = np.load('Xtest' + str(WINDOW_SIZE)+ '.npz')['X']
 ytest = np.load('ytest_raw.npz')['y']
 ytest = np.sqrt(ytest)
 # Xtest = np.zeros((temp_Xtest.shape[0], temp_Xtest.shape[1]+HIDDEN_STATE_SIZE))
@@ -34,7 +35,14 @@ Xtest = temp_Xtest
 
 print("x shape", Xtrain.shape, "y shape", ytrain.shape )
 
-clf = GBT(n_estimators = 100, max_depth = 3, warm_start = True)
+# clf = GBT(n_estimators = 1000, max_depth = 3, warm_start = True)
+clf = RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+           max_features='auto', max_leaf_nodes=None,
+           min_impurity_decrease=0.0, min_impurity_split=None,
+           min_samples_leaf=1, min_samples_split=2,
+           min_weight_fraction_leaf=0.0, n_estimators=1000, n_jobs=1,
+           oob_score=False, random_state=None, verbose=0, warm_start=False)
+
 # clf = CBR(max_depth = 16)
 print(clf)
 
