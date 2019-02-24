@@ -34,7 +34,7 @@ aa = dict(
 def prepareDataSet(files):
     SAMPLE_INTERVAL = 200
     MAX_FILE_COUNT = 10000000000
-    FEATURE_DIMENSION = 21
+    FEATURE_DIMENSION = 45
 
     X = np.empty((0,FEATURE_DIMENSION), int)
     y = np.empty((0,1), float)
@@ -89,7 +89,7 @@ if __name__ == "__main__":
     # ytest_pred = clf.predict(Xtest)
     # print(mae(ytest, ytest_pred))
 
-    np.savez_compressed('Xtrain21.npz', X=Xtrain)
-    np.savez_compressed('Xtest21.npz', X=Xtest)
-    np.savez_compressed('ytrain21.npz', y=ytrain)
-    np.savez_compressed('ytest21.npz', y=ytest)
+    np.savez_compressed('Xtrain45.npz', X=Xtrain)
+    np.savez_compressed('Xtest45.npz', X=Xtest)
+    np.savez_compressed('ytrain45.npz', y=ytrain)
+    np.savez_compressed('ytest45.npz', y=ytest)
