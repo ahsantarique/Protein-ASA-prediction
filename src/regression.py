@@ -28,7 +28,7 @@ ytrain = np.sqrt(y)
 
 temp_Xtest = np.load('Xtest' + str(WINDOW_SIZE)+ '.npz')['X']
 ytest = np.load('ytest_raw.npz')['y']
-ytest = np.sqrt(ytest)
+# ytest = np.sqrt(ytest)
 # Xtest = np.zeros((temp_Xtest.shape[0], temp_Xtest.shape[1]+HIDDEN_STATE_SIZE))
 # Xtest[:,:-HIDDEN_STATE_SIZE] = temp_Xtest
 Xtest = temp_Xtest
@@ -86,5 +86,5 @@ ytest_pred = clf.predict(Xtest)
 # 	Xtest[i,-HIDDEN_STATE_SIZE:] = window
 
 ytest_pred = np.square(ytest_pred)
-ytest = np.square(ytest)
+# ytest = np.square(ytest)
 print("Testing MAE = ", mae(ytest, ytest_pred))
